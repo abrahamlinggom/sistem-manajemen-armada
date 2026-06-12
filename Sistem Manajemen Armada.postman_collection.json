@@ -1,0 +1,80 @@
+{
+  "info": {
+    "_postman_id": "7785af9f-c23f-45d0-ae8b-20f69b6080ab",
+    "name": "Sistem Manajemen Armada",
+    "description": "Koleksi ini menyediakan endpoint untuk memantau dan melacak lokasi kendaraan dalam sistem manajemen armada. Koleksi ini ditujukan untuk backend developer yang membutuhkan akses data posisi kendaraan secara real-time maupun historis.\n\n### Endpoints\n\n- **Get Lokasi Terakhir** untuk mengambil posisi terkini dari sebuah kendaraan menggunakan `GET /vehicles/{plate}/location`.\n    \n- **Get Riwayat Lokasi untuk m**engambil riwayat pergerakan kendaraan dalam rentang waktu tertentu menggunakan parameter `start` dan `end.` Menggunakan `GET /vehicles/{plate}/history`.\n    \n\n### Base URL\n\n`http://localhost:8080`\n\n### Catatan\n\nPastikan server lokal berjalan di port `8080` sebelum menjalankan request dalam koleksi ini.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54044384",
+    "_collection_link": "https://go.postman.co/collection/54044384-7785af9f-c23f-45d0-ae8b-20f69b6080ab?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get lokasi terakhir",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/vehicles/B1234XYZ/location",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "vehicles",
+            "B1234XYZ",
+            "location"
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Get riwayat lokasi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/vehicles/B1234XYZ/history?start=1781273143&end=1781273295",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "vehicles",
+            "B1234XYZ",
+            "history"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "1781273143"
+            },
+            {
+              "key": "end",
+              "value": "1781273295"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

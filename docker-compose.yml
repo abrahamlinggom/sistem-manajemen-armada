@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Ghizooo3
+      POSTGRES_DB: armada
+    ports:
+      - "5432:5432"
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  backend:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - mosquitto
+      - rabbitmq
+    environment:
+      - DB_DSN=host=postgres user=postgres password=Ghizooo3 dbname=armada port=5432 sslmode=disable
+      - RABBIT_URL=amqp://guest:guest@rabbitmq:5672/
+      - MQTT_BROKER=tcp://mosquitto:1883
