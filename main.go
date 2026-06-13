@@ -7,6 +7,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"time"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/gin-gonic/gin"
@@ -44,9 +45,14 @@ func main() {
 	db.AutoMigrate(&VehicleLocation{})
 
 	// koneksi ke rabbitmq
-	rabbitConn, err = amqp.Dial(getEnv("RABBIT_URL", "amqp://guest:guest@localhost:5672/"))
-	if err != nil {
-		log.Println("RabbitMQ belum merespons")
+	for {
+		rabbitConn, err = amqp.Dial(getEnv("RABBIT_URL", "amqp://guest:guest@rabbitmq:5672/"))
+		if err == nil {
+			fmt.Println("✅ Sukses terhubung ke RabbitMQ!")
+			break // Keluar dari loop jika berhasil
+		}
+		fmt.Println("Menunggu RabbitMQ, mencoba lagi dalam 5 detik.")
+		time.Sleep(5 * time.Second)
 	}
 
 	// menjalankan rabbitmq di latar belakang
