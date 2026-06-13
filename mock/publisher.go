@@ -22,9 +22,9 @@ func main() {
 	fmt.Println("Armada berjalan")
 
 	for {
-		lat += 0.00002 // Diperlambat agar lebih lama berada di area Monas
+		lat += 0.00002
 
-		// Jika sudah melewati batas atas Monas, putar balik ke titik awal
+		// Jika sudah melewati batas, putar balik ke titik awal
 		if lat > -6.1750 {
 			lat = -6.1758
 		}
