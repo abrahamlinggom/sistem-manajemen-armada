@@ -16,13 +16,18 @@ func main() {
 	}
 
 	// titik awal
-	lat := -6.1758
+	lat := -6.1756
 	lon := 106.8272
 
 	fmt.Println("Armada berjalan")
 
 	for {
-		lat += 0.0001 // Bergerak mendekat titik -6.1754
+		lat += 0.00002 // Diperlambat agar lebih lama berada di area Monas
+
+		// Jika sudah melewati batas atas Monas, putar balik ke titik awal
+		if lat > -6.1750 {
+			lat = -6.1758
+		}
 
 		data := map[string]interface{}{
 			"vehicle_id": "B1234XYZ",

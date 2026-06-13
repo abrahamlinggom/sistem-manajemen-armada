@@ -92,15 +92,13 @@ var terimaDataDariArmada mqtt.MessageHandler = func(client mqtt.Client, msg mqtt
 	}
 }
 
-// Menerbitkan pengumuman ke RabbitMQ
+// kirim geofence ke RabbitMQ
 func kirimPeringatanGeofence(loc VehicleLocation) {
 	if rabbitConn == nil {
 		return
 	}
 	ch, _ := rabbitConn.Channel()
 	defer ch.Close()
-
-	ch.ExchangeDeclare("fleet.events", "direct", true, false, false, false, nil)
 
 	pesanGeofence := map[string]interface{}{
 		"vehicle_id": loc.VehicleID,
@@ -109,7 +107,7 @@ func kirimPeringatanGeofence(loc VehicleLocation) {
 		"timestamp":  loc.Timestamp,
 	}
 	body, _ := json.Marshal(pesanGeofence)
-	ch.Publish("fleet.events", "geofence_alerts", false, false, amqp.Publishing{
+	ch.Publish("", "geofence_alerts", false, false, amqp.Publishing{
 		ContentType: "application/json",
 		Body:        body,
 	})
@@ -156,8 +154,8 @@ func hitungJarak(lat1, lon1, lat2, lon2 float64) float64 {
 }
 
 func getEnv(key, fallback string) string {
-    if value, exists := os.LookupEnv(key); exists {
-        return value
-    }
-    return fallback
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return fallback
 }
